@@ -9,7 +9,7 @@ export interface Config {
 
 const config: Config = {
   // 需要校验的文件后缀, 支持正则、函数类型
-  checkFileExtname: ['js', 'jsx', 'tsx']
+  checkFileExtname: ['js', 'jsx', 'tsx', 'ts'],
 }
 
 

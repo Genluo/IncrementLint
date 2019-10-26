@@ -7,7 +7,7 @@ import config from '../config/index';
 
 const splitReg = /修改：|新文件：|modified: |new file: |\n/g
 
-const isFile = (name: string) => {
+export const isFile = (name: string) => {
     try {
         if (fs.statSync(name).isFile()) {
             const extname = path.extname(name).replace('.', '');
@@ -20,6 +20,7 @@ const isFile = (name: string) => {
     }
     return false;
 }
+
 
 const getFullPath = (name: string) => {
     if (path.isAbsolute(name)) return name;
