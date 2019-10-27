@@ -1,36 +1,26 @@
 import { Transform } from 'stream';
 import { StringDecoder, NodeStringDecoder } from 'string_decoder';
-import fs from 'fs';
 import path from 'path';
 import anymatch from 'anymatch';
 import config from '../config/index';
+import { isFile, getFileFullPath } from './util';
 
 const splitReg = /修改：|新文件：|modified: |new file: |\n/g
 
-export const isFile = (name: string) => {
-    try {
-        if (fs.statSync(name).isFile()) {
-            const extname = path.extname(name).replace('.', '');
-            if (anymatch(config.checkFileExtname, extname)) {
-                return true;
-            }
+export const isTheFileNeedToCheck = (fileName: string) => {
+    if (isFile(fileName)) {
+        const extname = path.extname(fileName).replace('.', '');
+        if (anymatch(config.checkFileExtname, extname)) {
+            return true;
         }
-    } catch(error) {
-        return false;
     }
     return false;
-}
-
-
-const getFullPath = (name: string) => {
-    if (path.isAbsolute(name)) return name;
-    return path.resolve(name);
 }
 
 // 实现git status 输出文件列表， 输出流
 export default class FileList extends Transform {
     private _decoder: NodeStringDecoder = new StringDecoder('utf8');
-    private data = '';
+    private temporaryData = '';
     private fileList: string[] = [];
 
     private addRow = (str: string) => {
@@ -42,8 +32,8 @@ export default class FileList extends Transform {
     private saveFileName = (fileOriginList: string[]) => {
         let flag = 0;
         for (let [index, fileName] of fileOriginList.entries()) {
-            const name = getFullPath(fileName.trim());
-            if (name && isFile(name)) {
+            const name = getFileFullPath(fileName.trim());
+            if (name && isTheFileNeedToCheck(name)) {
                 flag = index + 1;
                 if (this.fileList.includes(name)) continue;
                 this.fileList.push(name);
@@ -53,14 +43,14 @@ export default class FileList extends Transform {
         return fileOriginList.splice(flag);
     }
 
-    _transform(chunk: Buffer | string, encoding: string, done: Function) {
+    _transform(gitStatusChunk: Buffer | string, encoding: string, done: Function) {
         if (encoding === 'buffer') {
-            chunk = this._decoder.write(chunk as Buffer);
+            gitStatusChunk = this._decoder.write(gitStatusChunk as Buffer);
         }
-        this.data += chunk;
-        const mBfileList = this.data.split(splitReg);
-        const surplueFileList = this.saveFileName(mBfileList);
-        this.data = surplueFileList.join('修改：');
+        this.temporaryData += gitStatusChunk;
+        const maybeFileList = this.temporaryData.split(splitReg); // 得到可能是文件的字符串列表
+        const surplusFileList = this.saveFileName(maybeFileList);
+        this.temporaryData = surplusFileList.join('修改：');
         done(null);
     }
 

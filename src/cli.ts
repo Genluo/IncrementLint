@@ -4,7 +4,6 @@ import FileListStream from './FileListStream';
 import LintListStream from './EslintRowsStream';
 import FixEslintStream from './FixEslint';
 
-
 const fileListStream = new FileListStream();
 const compareStream  = new CompareStream();
 const lintListStream = new LintListStream();
@@ -18,14 +17,4 @@ exec('git status', { encoding: 'buffer' }, (err, stdout, stderr) => {
     .pipe(compareStream)
     .pipe(lintListStream)
     .pipe(process.stdout)
-
-    // 同步fix过程
-
-    // fileListStream.write(stdout);
-    // fileListStream.end();
-    // fileListStream
-    // .pipe(compareStream)
-    // .pipe(fixEslintStream)
-    // .pipe(lintListStream)
-    // .pipe(process.stdout)
 });
