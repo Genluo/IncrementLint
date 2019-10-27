@@ -1,7 +1,6 @@
 import { Transform } from 'stream'; 
 import { execSync } from 'child_process';
 import { StringDecoder } from 'string_decoder';
-import chalk from 'chalk';
 
 const contentReg = /(@@[ -\\d]*@@)([\w\W]*?)(?=@|$)/g
 const gitTemp = `git diff --staged `;
@@ -49,7 +48,7 @@ export default class CompareFile extends Transform {
         this.compare();
         done();
     }
-    
+
     _flush = (done: Function) => {
         const str = this.data;
         const fileList: string[] = str.split('\n').filter(item => item);
@@ -60,7 +59,7 @@ export default class CompareFile extends Transform {
     }
 
     private compare = () => {
-        // 优化可以做成异步队列
+        // todo优化可以做成异步队列
         while(this.fileList.length) {
             const filename = this.fileList.pop();
             const str = execSync(`${gitTemp}${filename}`);
