@@ -7,7 +7,7 @@
     "incrementLint": "./bin/incrementLint"
   },
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest",
     "dev": "tsc --watch",
     "build": "tsc"
   },

@@ -2,17 +2,18 @@ import { isFile, getFileFullPath } from '../src/util';
 import path from 'path';
 
 
+jest.mock('fs');
 describe('test utils isFile', () => {
   it('params: index', () => {
     expect(isFile('index')).toBeFalsy();
   });
 
   it('params: index.jsx', () => {
-    expect(isFile('index.jsx')).toBeFalsy();
+    expect(isFile('index.jsx')).toBeTruthy();
   });
 
   it('params: src', () => {
-    expect(isFile('src')).toBe(false);
+    expect(isFile('src')).toBeFalsy();
   })
 });
 
