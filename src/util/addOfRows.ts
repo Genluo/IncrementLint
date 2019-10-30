@@ -10,6 +10,8 @@ export interface DealFun {
   (str: string, index: number): string,
 }
 
+
+
 /**
  *处理文件的每行内容
  *
@@ -61,14 +63,13 @@ export async function readLine (fileName: string, dealFun: ReadLineDealFun, call
     })
   });
 }
-
 /**
  *判断一行需要处理与否
  *
  * @param {*} str
  * @param {*} index
  */
-function judgeRow(str: string, index: number): boolean {
+export function judgeRow(str: string, index: number): boolean {
   // 跳过注释语句
   if (/^(\/\*\*)|( \*)/g.test(str)) {
     return false;
@@ -86,6 +87,7 @@ export function copyToNewFileDealOfRows(str: string, index: number, ignoreRows: 
   }
   return str + ignoreEslint;
 }
+
 
 /**
  *将文件克隆岛旧的文件中调用的处理的函数

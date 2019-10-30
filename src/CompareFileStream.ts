@@ -2,9 +2,9 @@ import { Transform } from 'stream';
 import { execSync } from 'child_process';
 import { StringDecoder } from 'string_decoder';
 
-const contentReg = /(@@[ -\\d]*@@)([\w\W]*?)(?=@|$)/g
+const contentReg = /(@@[ -\\d]*@@)([\w\W]*?)(?=@@|$)/g
 const gitTemp = `git diff --staged `;
-const gitChangeRowNumber = (str: string) => {
+export const gitChangeRowNumber = (str: string) => {
     const strRows = str.split(/\n/g);
     const okReg = /^\+/g
     const subReg = /^\-/g
