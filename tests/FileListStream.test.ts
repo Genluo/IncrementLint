@@ -30,14 +30,14 @@ describe('test FileList', () => {
             modified:   src/cli.js
             new file:   tests/FileListStream.test.ts
             modified:   index.jsx
+            modified:   index.ts
   `);
 
-  it('test buffer test1', (done) => {
+  function testResult(testStr: Buffer, callback: Function) {
     const fileList = new FileList();
-    const currentRootPath = process.cwd();
-    const expectResult = path.resolve(currentRootPath, 'index.jsx');
     let result: Buffer = Buffer.alloc(0);
-    fileList.write(test1);
+
+    fileList.write(testStr);
     fileList.end();
     fileList.on('readable', () => {
       let chunk: Buffer;
@@ -47,8 +47,18 @@ describe('test FileList', () => {
     });
 
     fileList.on('end', () => {
-      expect(result.toString()).toBe(`${expectResult}\n`);
-      done();
+      callback(result);
     });
+  }
+
+  it('test buffer test1', (done) => {
+    const currentRootPath = process.cwd();
+    const expectResult = `${path.resolve(currentRootPath, 'index.jsx')}\n${path.resolve(currentRootPath, 'index.ts')}\n`;
+    testResult(test1, (result: Buffer) => {
+      expect(result.toString()).toBe(expectResult)
+      done();
+    })
   });
+
+
 });
