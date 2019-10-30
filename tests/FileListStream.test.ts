@@ -20,7 +20,7 @@ describe('test isTheFileNeedToCheck', () => {
 });
 
 describe('test FileList', () => {
-  const test1  = Buffer.from(`
+  const englishStr  = Buffer.from(`
     On branch master
     Your branch is up to date with 'origin/master'.
     
@@ -32,6 +32,19 @@ describe('test FileList', () => {
             modified:   index.jsx
             modified:   index.ts
   `);
+
+  const chineseStr  = Buffer.from(`
+  On branch master
+  Your branch is up to date with 'origin/master'.
+  
+  Changes to be committed:
+    (use "git reset HEAD <file>..." to unstage)
+  
+          新文件：   src/cli.js
+          新文件：   tests/FileListStream.test.ts
+          修改：   index.jsx
+          修改：   index.ts
+  `)
 
   function testResult(testStr: Buffer, callback: Function) {
     const fileList = new FileList();
@@ -51,14 +64,20 @@ describe('test FileList', () => {
     });
   }
 
-  it('test buffer test1', (done) => {
-    const currentRootPath = process.cwd();
+  const currentRootPath = process.cwd();
     const expectResult = `${path.resolve(currentRootPath, 'index.jsx')}\n${path.resolve(currentRootPath, 'index.ts')}\n`;
-    testResult(test1, (result: Buffer) => {
+
+  it('test buffer English', (done) => {
+    testResult(englishStr, (result: Buffer) => {
       expect(result.toString()).toBe(expectResult)
       done();
     })
   });
 
-
+  it('test buffer Chinese', (done) => {
+    testResult(chineseStr, (result: Buffer) => {
+      expect(result.toString()).toBe(expectResult)
+      done();
+    })
+  });
 });
