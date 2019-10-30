@@ -1,8 +1,5 @@
 import path from 'path';
 import FileList, { isTheFileNeedToCheck } from '../src/FileListStream';
-import { Writable } from  'stream';
-import { exportDefaultDeclaration } from '@babel/types';
-
 
 jest.mock('fs');
 
@@ -53,6 +50,5 @@ describe('test FileList', () => {
       expect(result.toString()).toBe(`${expectResult}\n`);
       done();
     });
-
   });
 });
