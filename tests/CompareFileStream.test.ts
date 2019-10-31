@@ -33,6 +33,21 @@ describe('test function gitChangeRowNumber', () => {
 if (/^(\/\*\*)|( \*
 `;
 
+  const test3 = `
+@@ -10,6 +10,8 @@ export interface DealFun {
+  (str: string, index: number): string,
+}
+
++
++
+/**
+ *处理文件的每行内容
+  *
+@@ -61,14 +63,13 @@ export async function readLine (fileName: string, dealFun: ReadLineDealFun, call
+    })
+  });
+}
+  `
   test('test params test1', () => {
     const rows = gitChangeRowNumber(test1);
     expect(rows).toEqual([72]);
@@ -41,6 +56,11 @@ if (/^(\/\*\*)|( \*
   test('test params test2', () => {
     const rows = gitChangeRowNumber(test2);
     expect(rows).toEqual([71]);
+  })
+
+  test('test params test3', ()  => {
+    const rows = gitChangeRowNumber(test3);
+    expect(rows).toEqual([14, 15]);
   })
 })
 
