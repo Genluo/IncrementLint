@@ -1,7 +1,9 @@
 import { Transform, Duplex } from 'stream'; 
 import { StringDecoder } from 'string_decoder';
 import { execSync, exec, spawn } from 'child_process';
+import process from 'process';
 import chalk from 'chalk';
+import { doesNotReject } from 'assert';
 
 const rowReg = /(?<=\s*)\d*(?=:)/g;
 const SEPARATOR = process.platform === 'win32' ? ';' : ':';
@@ -15,11 +17,6 @@ export default class CompareFile extends Transform {
     private addRows = (row: string) => {
         const buffer = Buffer.from(row+'\n');
         this.push(buffer);
-    }
-
-    private dealError = (error: { output: { filter: (arg0: (item: any) => any) => Buffer[]; }; }) => {
-        const bufferList: Buffer[] = error.output.filter(item => item);
-        return Buffer.concat(bufferList).toString()
     }
 
     _transform = (chunk: Buffer, encoding: string, done: Function) => {
@@ -49,6 +46,7 @@ export default class CompareFile extends Transform {
         this.lint();
         if (this.incrementErrorNum !== 0) {
             process.exit(1);
+            done(null);
         } else {
             done(null);
         }
@@ -77,7 +75,13 @@ export default class CompareFile extends Transform {
         }
     }
 
+    private dealError = (error: { output: { filter: (arg0: (item: any) => any) => Buffer[]; }; }) => {
+        const bufferList: Buffer[] = error.output.filter(item => item);
+        return Buffer.concat(bufferList).toString()
+    }
+
     private dealContent = (contentList: string[], lintRows: number[]) => {
+        // TODO: 警告不应该直接报错
         const title = chalk.green(contentList[0]);
         let errorNum = 0; // 错误总数
         let incrementErrorNum = 0; // 增量错误总数
