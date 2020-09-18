@@ -13,8 +13,6 @@ interface registeredConfig {
   (name: string, data: any): boolean;
 }
 
-interface 
-
 
 function readDir(str: string) {
   const basePath = path.resolve(__dirname, '../../../lib');

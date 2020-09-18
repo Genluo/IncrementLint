@@ -10,7 +10,6 @@ const lintListStream = new LintListStream();
 const fixEslintStream = new FixEslintStream();
 
 exec('git status', { encoding: 'buffer' }, (err, stdout, stderr) => {
-
     fileListStream.write(stdout);
     fileListStream.end();
     fileListStream

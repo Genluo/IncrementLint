@@ -1,7 +1,7 @@
 import { Transform } from 'stream'; 
 import { execSync } from 'child_process';
 import { StringDecoder } from 'string_decoder';
-import { gitChangeRowNumber } from './util';
+import { gitChangeRowNumber } from './util/index';
 
 
 const contentReg = /(@@[ -\\d]*@@)([\w\W]*?)(?=@@|$)/g
