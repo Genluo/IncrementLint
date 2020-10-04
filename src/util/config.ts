@@ -1,8 +1,5 @@
 import fs from 'fs-extra';
 import path from 'path';
-import readline from 'readline';
-
-const getDirList = (list: fs.Dirent[]) => list.filter(filePath => filePath.isDirectory())
 
 /**
  *执行时动态注入

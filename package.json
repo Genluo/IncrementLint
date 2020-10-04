@@ -38,6 +38,7 @@
     "jest": "^24.9.0",
     "ts-jest": "^24.1.0",
     "typescript": "^3.6.4",
+    "@typescript-eslint/parser": "^4.3.0",
     "typescript-eslint-parser": "^22.0.0"
   },
   "dependencies": {
