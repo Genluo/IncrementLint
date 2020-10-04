@@ -1,5 +1,5 @@
-import fs from 'fs-extra';
-import path from 'path';
+import fs from "fs-extra";
+import path from "path";
 
 /**
  *执行时动态注入
@@ -10,9 +10,8 @@ interface registeredConfig {
   (name: string, data: any): boolean;
 }
 
-
 function readDir(str: string) {
-  const basePath = path.resolve(__dirname, '../../../lib');
+  const basePath = path.resolve(__dirname, "../../../lib");
   console.log(basePath);
   const paths = fs.readdirSync(basePath);
   const dirPaths = [];
@@ -26,4 +25,4 @@ function readDir(str: string) {
   console.log(dirPaths);
 }
 
-readDir('./config')
+readDir("./config");
