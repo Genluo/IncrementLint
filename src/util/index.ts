@@ -1,3 +1,4 @@
+import fs from 'fs-extra';
 export * from './addOfRows';
 export * from './config';
 
@@ -16,4 +17,12 @@ export const gitChangeRowNumber = (str: string) => {
       }
   };
   return rows;
+}
+
+export function isFile(path: string): boolean {
+    return fs.existsSync(path);
+}
+
+export function getFileFullPath(file: string): string {
+    return file;
 }
