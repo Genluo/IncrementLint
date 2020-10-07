@@ -1,10 +1,10 @@
 
-import { Transform } from 'stream';
-import { StringDecoder, NodeStringDecoder } from 'string_decoder';
-import path from 'path';
 import anymatch from 'anymatch';
+import path from 'path';
+import { Transform } from 'stream';
+import { NodeStringDecoder, StringDecoder } from 'string_decoder';
 import config from '../config/index';
-import { isFile, getFileFullPath } from './util';
+import { getFileFullPath, isFile } from './util';
 
 const splitReg = /修改：|新文件：|modified: |new file: |\n/g
 

@@ -1,15 +1,6 @@
 import fs from "fs-extra";
 import path from "path";
 
-/**
- *执行时动态注入
- *
- * @interface registeredConfig
- */
-interface registeredConfig {
-  (name: string, data: any): boolean;
-}
-
 function readDir(str: string) {
   const basePath = path.resolve(__dirname, "../../../lib");
   console.log(basePath);

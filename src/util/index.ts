@@ -36,7 +36,7 @@ export const isFile = (name: string) => {
   return false;
 };
 
-export const getFullPath = (name: string) => {
+export const getFileFullPath = (name: string) => {
   if (path.isAbsolute(name)) return name;
   return path.resolve(name);
 };
