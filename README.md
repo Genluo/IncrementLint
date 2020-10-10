@@ -1,8 +1,6 @@
 ### IncrementLint
 
-[![Build Status](https://travis-ci.org/Genluo/IncrementLint.svg)](https://travis-ci.org/Genluo/increment-eslint) [![](https://img.shields.io/npm/dt/increment-eslint.svg)]((https://www.npmjs.com/package/increment-eslint))
-
-
+[![Build Status](https://travis-ci.org/Genluo/IncrementLint.svg)](https://travis-ci.org/Genluo/increment-eslint) [![](https://img.shields.io/npm/v/increment-eslint)]((https://www.npmjs.com/package/increment-eslint))
 
 IncrementLint 是一个前端项目的eslint增量检测工具，适合为后期使用eslint进行代码校验的项目配置commit hooks，强制每次提交都针对这次修改的代码进行eslint校验
 
